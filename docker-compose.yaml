@@ -18,7 +18,7 @@ services:
     restart: always
 
   init:
-    build: ./airflow
+    image: my_airflow
     container_name: init
     command: /scripts/init.sh
     env_file:
@@ -28,7 +28,7 @@ services:
       - redis
 
   webserver:
-    build: ./airflow
+    image: my_airflow
     container_name: webserver
     command: airflow webserver
     ports:
@@ -43,7 +43,7 @@ services:
     restart: always
 
   scheduler:
-    build: ./airflow
+    image: my_airflow
     container_name: scheduler
     command: airflow scheduler
     depends_on:
@@ -56,7 +56,7 @@ services:
     restart: always
 
   worker1:
-    build: ./airflow
+    image: my_airflow
     container_name: worker1
     command: airflow celery worker
     depends_on:
@@ -69,7 +69,7 @@ services:
     restart: always
 
   worker2:
-    build: ./airflow
+    image: my_airflow
     container_name: worker2
     command: airflow celery worker
     depends_on:
@@ -82,7 +82,7 @@ services:
     restart: always
 
   worker3:
-    build: ./airflow
+    image: my_airflow
     container_name: worker3
     command: airflow celery worker
     depends_on:
