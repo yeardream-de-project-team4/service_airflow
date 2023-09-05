@@ -1,0 +1,95 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    env_file:
+      - .env
+    ports:
+      - 5432:5432
+    restart: always
+
+  redis:
+    image: redis
+    container_name: redis
+    expose:
+      - 6379
+    restart: always
+
+  init:
+    build: ./airflow
+    container_name: init
+    command: /scripts/init.sh
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - redis
+
+  webserver:
+    build: ./airflow
+    container_name: webserver
+    command: airflow webserver
+    ports:
+      - 8080:8080
+    depends_on:
+      - init
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./config:/opt/airflow/config
+      - ./plugins:/opt/airflow/plugins
+    restart: always
+
+  scheduler:
+    build: ./airflow
+    container_name: scheduler
+    command: airflow scheduler
+    depends_on:
+      - init
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./config:/opt/airflow/config
+      - ./plugins:/opt/airflow/plugins
+    restart: always
+
+  worker1:
+    build: ./airflow
+    container_name: worker1
+    command: airflow celery worker
+    depends_on:
+      - init
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./config:/opt/airflow/config
+      - ./plugins:/opt/airflow/plugins
+    restart: always
+
+  worker2:
+    build: ./airflow
+    container_name: worker2
+    command: airflow celery worker
+    depends_on:
+      - init
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./config:/opt/airflow/config
+      - ./plugins:/opt/airflow/plugins
+    restart: always
+
+  worker3:
+    build: ./airflow
+    container_name: worker3
+    command: airflow celery worker
+    depends_on:
+      - init
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./config:/opt/airflow/config
+      - ./plugins:/opt/airflow/plugins
+    restart: always
