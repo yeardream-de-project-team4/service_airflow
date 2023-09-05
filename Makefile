@@ -3,7 +3,7 @@ all: build up
 
 # Build all service images
 build:
-	docker-compose build
+	docker build -t my_airflow ./airflow
 
 # Start all services
 up:
