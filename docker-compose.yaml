@@ -35,6 +35,8 @@ services:
       - 8090:8080
     depends_on:
       - init
+    env_file:
+      - .env
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
@@ -48,6 +50,8 @@ services:
     command: airflow scheduler
     depends_on:
       - init
+    env_file:
+      - .env
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
@@ -61,6 +65,8 @@ services:
     command: airflow celery worker
     depends_on:
       - init
+    env_file:
+      - .env
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
@@ -74,6 +80,8 @@ services:
     command: airflow celery worker
     depends_on:
       - init
+    env_file:
+      - .env
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
@@ -87,6 +95,8 @@ services:
     command: airflow celery worker
     depends_on:
       - init
+    env_file:
+      - .env
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
