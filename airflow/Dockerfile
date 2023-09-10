@@ -9,6 +9,7 @@ ENV CONSTRAINT_URL=https://raw.githubusercontent.com/apache/airflow/constraints-
 RUN pip3 install "apache-airflow[celery]==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
 RUN pip3 install psycopg2-binary redis pytz kafka-python
 RUN pip3 install requests
+RUN pip3 install apache-airflow-providers-apache-kafka  
 
 # third-party
 # RUN pip3 install [library]

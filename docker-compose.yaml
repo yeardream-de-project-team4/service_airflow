@@ -20,7 +20,7 @@ services:
   init:
     image: my_airflow
     container_name: init
-    command: /scripts/init.sh
+    entrypoint: /scripts/init.sh
     env_file:
       - .env
     depends_on:
