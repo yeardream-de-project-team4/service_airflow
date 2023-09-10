@@ -17,7 +17,7 @@ tz = pytz.timezone("Asia/Seoul")
 brokers = os.getenv("KAFKA_BROKERS").split(",")
 
 
-def test(ti):
+def send(ti):
     producer = KafkaProducer(
         bootstrap_servers=brokers,
         value_serializer=lambda x: json.dumps(x).encode("utf-8"),
@@ -26,8 +26,8 @@ def test(ti):
         retries=3,
     )
     ticker = "005930"
-    producer.send("airflow-crawling-msg", {"ticker": ticker})
-    producer.send("elk-logs-airflow", {"ticker": ticker})
+    producer.send("airflow-flask-crawling", {"ticker": ticker})
+    producer.send("airflow-elk-crawling", {"ticker": ticker})
     producer.close()
 
 
@@ -38,6 +38,6 @@ with DAG(
     schedule_interval="@daily",
     catchup=False,
 ) as dag:
-    task2 = PythonOperator(task_id="asd", python_callable=test)
+    task1 = PythonOperator(task_id="task1", python_callable=send)
 
-    task2
+    task1
